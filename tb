@@ -1,0 +1,38 @@
+`timescale 1ns / 1ps
+
+module siso_tb();
+reg clk,rst;
+reg [3:0]si;
+wire [3:0]out;
+siso dut(clk,rst,si,out);
+initial
+   begin
+    clk=1'b0;
+    forever 
+     #5clk=~clk;
+     end
+task reset1();
+begin
+   @(negedge clk)
+   rst=1'b1;
+   @(negedge clk)  
+   rst=1'b0;
+end
+endtask
+task inputs(input[4:0] si1);
+ begin
+  si=si1;
+  end
+  endtask
+initial
+   begin
+   reset1();
+   inputs(4'b1011);
+   //inputs(0);
+   //inputs(1);
+   //inputs(1);
+  $monitor($time,"input rst=%b,input si=%b,output out=%b ",rst,si,out);
+  #100 $finish;
+  end
+   
+endmodule
