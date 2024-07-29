@@ -1,0 +1,22 @@
+`timescale 1ns / 1ps
+
+
+module siso(input clk,rst,input[3:0]si,output[3:0]out);
+reg [3:0]temp;
+always@(posedge clk)
+begin
+if(rst)
+begin
+temp<=3'b0;
+end
+else 
+begin
+temp[3]<=si<<1;
+temp[2]<=temp[3];
+temp[1]<=temp[2];
+temp[0]<=temp[1];
+end
+end
+assign out=temp;
+
+endmodule
